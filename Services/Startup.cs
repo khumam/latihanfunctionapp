@@ -1,6 +1,8 @@
 using System;
+using BookManagementFunctionApp6.Models;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 public class Startup : FunctionsStartup
 {
@@ -8,6 +10,8 @@ public class Startup : FunctionsStartup
   {
     // Enable logging
     builder.Services.AddLogging();
-    Console.WriteLine("Success");
+    string sqlConnectionString = Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.Process);
+    Console.WriteLine(sqlConnectionString);
+    builder.Services.AddDbContext<BookContext>(opt => opt.UseNpgsql(sqlConnectionString));
   }
 }
