@@ -13,5 +13,6 @@ public class Startup : FunctionsStartup
     string sqlConnectionString = Environment.GetEnvironmentVariable("ConnectionString", EnvironmentVariableTarget.Process);
     Console.WriteLine(sqlConnectionString);
     builder.Services.AddDbContext<BookContext>(opt => opt.UseNpgsql(sqlConnectionString));
+    builder.Services.AddDbContext<TodoContext>(opt => opt.UseNpgsql(sqlConnectionString));
   }
 }
