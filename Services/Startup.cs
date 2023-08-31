@@ -16,3 +16,4 @@ public class Startup : FunctionsStartup
     builder.Services.AddDbContext<TodoContext>(opt => opt.UseNpgsql(sqlConnectionString));
   }
 }
+

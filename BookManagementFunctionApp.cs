@@ -11,6 +11,7 @@ using BookManagementFunctionApp6.Managers;
 using BookManagementFunctionApp6.Models;
 using System.Collections.Generic;
 using TodoFunctionApp.Helpers;
+using System.IO;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 namespace BookManagementFunctionApp6
@@ -38,6 +39,31 @@ namespace BookManagementFunctionApp6
       {
         List<Book> books = await _bookManager.FetchBooks();
         return new OkObjectResult(JsonConvert.SerializeObject(books));
+      }
+      catch (Exception e)
+      {
+        return ErrorHelper.HandleError(e, null, log);
+      }
+    }
+
+    [FunctionName("CreateBook")]
+    public async Task<IActionResult> RunCreateBook(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            ILogger log)
+    {
+      try
+      {
+        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+        dynamic data = JsonConvert.DeserializeObject(requestBody);
+        Book bookData = new()
+        {
+          Id = data.Id,
+          Title = data.Title,
+          Author = data.Author,
+        };
+
+        Book book = await _bookManager.CreateBook(bookData);
+        return new OkObjectResult(JsonConvert.SerializeObject(book));
       }
       catch (Exception e)
       {
