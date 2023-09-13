@@ -96,7 +96,7 @@ namespace BookManagementFunctionApp6
       {
         string data = Environment.GetEnvironmentVariable("DataValue", EnvironmentVariableTarget.Process);
         Console.WriteLine(data);
-        return new OkObjectResult(JsonConvert.SerializeObject(new {}));
+        return new OkObjectResult(JsonConvert.SerializeObject(new {response = data}));
       }
       catch (Exception e)
       {
