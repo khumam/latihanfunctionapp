@@ -86,5 +86,22 @@ namespace BookManagementFunctionApp6
         return ErrorHelper.HandleError(e, null, log);
       }
     }
+
+    [FunctionName("CheckEnvironment")]
+    public async Task<IActionResult> RunCheckEnvironment(
+      [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
+            ILogger log)
+    {
+      try
+      {
+        string data = Environment.GetEnvironmentVariable("DataValue", EnvironmentVariableTarget.Process);
+        Console.WriteLine(data);
+        return new OkObjectResult(JsonConvert.SerializeObject(new {}));
+      }
+      catch (Exception e)
+      {
+        return ErrorHelper.HandleError(e, null, log);
+      }
+    }
   }
 }
